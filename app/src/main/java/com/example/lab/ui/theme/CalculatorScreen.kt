@@ -1,6 +1,7 @@
 package com.example.lab.ui.theme
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,7 @@ fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.Black)
             .padding(16.dp)
     ) {
         if (isLandscape) {
@@ -55,7 +57,7 @@ fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
             ) {
                 Box(
                     modifier = Modifier
-                        .weight(0.4f)
+                        .weight(0.55f)
                         .fillMaxHeight(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
