@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "901522845006",
+    "project_id": "prmplab-90d21",
+    "storage_bucket": "prmplab-90d21.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901522845006:android:50c4a2a1ea3dec9898421f",
+        "android_client_info": {
+          "package_name": "com.example.lab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQOIJ57RTdjUTL7nY1tGMAMoQyDDAlJCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

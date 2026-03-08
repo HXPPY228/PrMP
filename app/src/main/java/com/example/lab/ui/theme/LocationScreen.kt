@@ -55,7 +55,7 @@ fun LocationScreen() {
     }
 
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.Black).padding(16.dp),
+        modifier = Modifier.fillMaxSize().background(Color.Transparent).padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
         if (locationPermissionState.status.isGranted) {

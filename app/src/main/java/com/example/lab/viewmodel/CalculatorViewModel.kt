@@ -4,12 +4,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CalculatorViewModel : ViewModel() {
+    private val db = FirebaseFirestore.getInstance()
     var displayState by mutableStateOf("0")
     private var firstNumber = 0.0
     private var currentOperator: String? = null
     private var isNewOp = true
+
+    private fun saveToCloud(expression: String, result: String) {
+        val historyItem = hashMapOf(
+            "expression" to expression,
+            "result" to result,
+            "timestamp" to System.currentTimeMillis()
+        )
+        db.collection("history").add(historyItem)
+    }
 
     fun onAction(action: String) {
         when {
@@ -94,6 +105,9 @@ class CalculatorViewModel : ViewModel() {
             "Ошибка"
         } else {
             val formatted = result.toString()
+
+            saveToCloud("$firstNumber $currentOperator $secondNumber", formatted)
+
             if (formatted.endsWith(".0")) formatted.dropLast(2) else formatted
         }
         currentOperator = null

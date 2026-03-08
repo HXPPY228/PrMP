@@ -28,11 +28,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lab.viewmodel.CalculatorViewModel
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 @Composable
 fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+    val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+    var isDark by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(true) }
+
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        db.collection("settings").document("theme").addSnapshotListener { snapshot, _ ->
+            val color = snapshot?.getString("backgroundColor") ?: "#000000"
+            isDark = color == "#000000"
+        }
+    }
+
+    val displayTextColor = if (isDark) Color.White else Color.Black
 
     // Данные кнопок
     val buttons = listOf(
@@ -46,7 +59,7 @@ fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(Color.Transparent)
             .padding(16.dp)
     ) {
         if (isLandscape) {
@@ -63,7 +76,8 @@ fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
                 ) {
                     CalculatorDisplay(
                         text = model.displayState,
-                        textSize = 48.sp
+                        textSize = 48.sp,
+                        textColor = displayTextColor
                     )
                 }
 
@@ -83,6 +97,7 @@ fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
                 CalculatorDisplay(
                     text = model.displayState,
                     textSize = 70.sp,
+                    textColor = displayTextColor,
                     modifier = Modifier.weight(1f)
                 )
 
@@ -100,6 +115,7 @@ fun CalculatorScreen(model: CalculatorViewModel = viewModel()) {
 fun CalculatorDisplay(
     text: String,
     textSize: androidx.compose.ui.unit.TextUnit,
+    textColor: Color,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -110,7 +126,7 @@ fun CalculatorDisplay(
             text = text,
             modifier = Modifier.padding(bottom = 16.dp, end = 12.dp),
             fontSize = textSize,
-            color = Color.White,
+            color = textColor,
             textAlign = TextAlign.End,
             maxLines = 1,
             lineHeight = textSize
