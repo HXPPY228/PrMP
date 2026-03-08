@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,8 +18,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.lab.ui.theme.MainScreen
 import com.google.firebase.firestore.FirebaseFirestore
+import androidx.fragment.app.FragmentActivity
+import com.example.lab.ui.theme.AuthScreen
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -28,8 +29,16 @@ class MainActivity : ComponentActivity() {
         askNotificationPermission()
 
         setContent {
+            var isAuthenticated by remember { mutableStateOf(false) }
+
             ApplyCloudTheme {
-                MainScreen()
+                if (isAuthenticated) {
+                    MainScreen()
+                } else {
+                    AuthScreen(
+                        onAuthSuccess = { isAuthenticated = true }
+                    )
+                }
             }
         }
     }

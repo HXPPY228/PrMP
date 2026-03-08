@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import android.content.res.Configuration
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
@@ -92,6 +93,24 @@ fun MainScreen() {
                             indicatorColor = AppleDarkGray
                         )
                     )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
+                        label = { Text("Настройки") },
+                        selected = currentRoute == "settings",
+                        onClick = {
+                            navController.navigate("settings") {
+                                popUpTo("calculator") { inclusive = false }
+                                launchSingleTop = true
+                            }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = ApplePurple,
+                            selectedTextColor = ApplePurple,
+                            unselectedIconColor = Color.Gray,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = AppleDarkGray
+                        )
+                    )
                 }
             }
         }
@@ -109,6 +128,9 @@ fun MainScreen() {
             }
             composable("history") {
                 HistoryScreen()
+            }
+            composable("settings") {
+                SettingsScreen()
             }
         }
     }
